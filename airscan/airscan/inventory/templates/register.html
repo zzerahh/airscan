@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card" style="max-width: 550px; margin: 0 auto;">
+    <h2 class="card-header" style="display: block; text-align: center;">📝 Register</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+            <div class="alert alert-error">
+                {% for error in form.non_field_errors %}
+                    {{ error|escape }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        {% for field in form %}
+            <div style="margin-bottom: 1rem;">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div style="color: #e53e3e; font-size: 0.875rem; margin-top: 0.25rem;">
+                        {% for error in field.errors %}
+                            {{ error|escape }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if field.help_text %}
+                    <small style="color: #718096; font-size: 0.75rem;">{{ field.help_text|escape }}</small>
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+        <button type="submit" style="width: 100%;">Register</button>
+    </form>
+    
+    <p style="text-align: center; margin-top: 1.5rem;">
+        Already have an account? <a href="{% url 'login' %}" style="color: #667eea;">Login here</a>
+    </p>
+</div>
+{% endblock %}
